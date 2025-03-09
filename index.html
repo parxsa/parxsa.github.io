@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    
+    .container {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .disclaimer {
+      font-style: italic;
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-left: 4px solid #4CAF50;
+      margin-bottom: 30px;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      background-color: #f5f5f5;
+      padding: 10px;
+    }
+    
+    .fine-print {
+      font-size: 11px;
+      color: #666;
+      margin-top: 10px;
+      border-top: 1px dotted #ddd;
+      padding-top: 10px;
+    }
+    
+    .strikethrough {
+      text-decoration: line-through;
+      color: #aa0000;
+    }
+    
+    .replacement {
+      color: #006600;
+      font-weight: bold;
+    }
+    
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    
+    .checkbox {
+      margin-right: 10px;
+      transform: scale(1.5);
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    
+    .accept {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    .accept:hover:not([disabled]) {
+      background-color: #3e8e41;
+      transform: scale(1.05);
+    }
+    
+    .accept:disabled {
+      background-color: #cccccc;
+      color: #666666;
+      cursor: not-allowed;
+    }
+    
+    .decline {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .footnote {
+      font-size: 10px;
+      color: #999;
+      margin-top: 5px;
+    }
+    
+    .popup {
+      position: fixed;
+      display: none;
+      width: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border-radius: 5px;
+      z-index: 100;
+      text-align: center;
+    }
+    
+    .popup-close {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-top: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .faded {
+      color: #999;
+    }
+    
+    /* New celebration modal styles */
+    .celebration-modal {
+      position: fixed;
+      display: none;
+      width: 450px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      z-index: 100;
+      text-align: center;
+      animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    
+    .celebration-title {
+      color: #4CAF50;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    
+    .celebration-text {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .celebration-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .celebration-button:hover {
+      background-color: #3e8e41;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f44336;
+      opacity: 0;
+      animation: fall 5s ease-out forwards;
+    }
+    
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(600px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>TERMS AND CONDITIONS</h1>
+      <p>For Gig Economy Platforms That Should Actually Apply</p>
+    </div>
+    
+    <div class="disclaimer">
+      <strong>PLEASE READ CAREFULLY:</strong> These terms prioritise fairness, sustainability, and worker rights—because platforms should be designed to benefit all stakeholders, not just the few at the top.
+    </div>
+    
+    <p>By continuing to operate in the gig economy, platforms agree to uphold the following non-exploitative terms. Failure to comply will result in... well, probably nothing, unless we redesign the system.</p>
+    
+    <div class="section">
+      <h2>SECTION 1: ETHICS AND BUSINESS (A LEGALLY BINDING RELATIONSHIP? MAYBE SOMEDAY.)</h2>
+      <p><span class="strikethrough">The Platform reserves the right to modify business practices at any time without considering ethical implications.</span> <span class="replacement">Platforms must embed ethics into their business models, ensuring that ethical choices are not an afterthought but a driver of success. Any attempts to greenwash exploitative practices will be flagged as a violation of basic decency.</span></p>
+      <div class="checkbox-container">
+        <input type="checkbox" class="checkbox" id="checkbox1">
+        <label for="checkbox1" id="label1">I acknowledge that ethics and profit are not mutually exclusive concepts</label>
+      </div>
+      <div class="fine-print">
+        *Note: Your acceptance of this clause may conflict with shareholder demands for infinite quarterly growth. We suggest reevaluating those relationships.
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>SECTION 2: COLLECTIVE ACTION (NO, YOU CANNOT OPT OUT.)</h2>
+      <p><span class="strikethrough">Workers agree to resolve all disputes individually and waive the right to class action lawsuits or collective bargaining.</span> <span class="replacement">Systemic change requires collaboration. Platforms must not discourage or penalise worker organisation, customer advocacy, or regulatory oversight. Users agree to challenge empty ethical promises whenever encountered.</span></p>
+      <div class="checkbox-container">
+        <input type="checkbox" class="checkbox" id="checkbox2">
+        <label for="checkbox2" id="label2">I understand that atomised individuals cannot fix systemic problems</label>
+      </div>
+      <div class="fine-print">
+        *Warning: Actual implementation may cause disruption to unfair business models. This is a feature, not a bug.
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>SECTION 3: WORKER RIGHTS (MORE THAN A CHECKBOX AGREEMENT)</h2>
+      <p><span class="strikethrough">Workers are independent contractors with no employment rights, benefits, or job security.</span> <span class="replacement">Gig workers are not 'infinitely replaceable.' Platforms must recognise labour retention as a core operational benefit and take active steps to ensure fair pay, stability, and career growth.</span></p>
+      <div class="checkbox-container">
+        <input type="checkbox" class="checkbox" id="checkbox3">
+        <label for="checkbox3" id="label3">I acknowledge that humans are not disposable resources</label>
+      </div>
+      <div class="fine-print">
+        *Caution: May result in slightly reduced executive bonuses but vastly improved service quality and platform sustainability.
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>SECTION 4: THE LONGEVITY CLAUSE (SHORT-TERMISM IS A BREACH OF CONTRACT)</h2>
+      <p><span class="strikethrough">The Platform optimises for short-term growth metrics and may deplete resources to achieve immediate results.</span> <span class="replacement">Platforms must design for long-term sustainability rather than short-term profit. Business models that rely on burning through workers like disposable batteries will be deemed defective.</span></p>
+      <div class="checkbox-container">
+        <input type="checkbox" class="checkbox" id="checkbox4">
+        <label for="checkbox4" id="label4">I agree that sustainable businesses outperform exploitative ones over time</label>
+      </div>
+      <div class="footnote">
+        Fun fact: Companies with fair labour practices have 28% less turnover and significantly higher customer satisfaction ratings.
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>SECTION 5: ENFORCEMENT (IF ONLY THIS WERE REAL.)</h2>
+      <p>Failure to comply with these conditions should result in regulatory action, consumer backlash, and platform decline. Until then, let's at least agree on what good design should look like.</p>
+      <div class="fine-print">
+        Note: Compliance with ethical design is currently voluntary. But that should change.
+      </div>
+    </div>
+    
+    <div class="buttons">
+      <button class="accept" id="acceptBtn" disabled>ACCEPT</button>
+      <button class="decline" onclick="showPopup()">DECLINE</button>
+    </div>
+  </div>
+  
+  <div id="popup" class="popup">
+    <p><strong>Sorry, declining fairness is not an option.</strong></p>
+    <p>Exploitative business models should be the ones with no choice.</p>
+    <button class="popup-close" onclick="hidePopup()">I UNDERSTAND</button>
+  </div>
+  
+  <!-- New celebration modal -->
+  <div id="celebrationModal" class="celebration-modal">
+    <h2 class="celebration-title">🎉 THANK YOU FOR CHOOSING FAIRNESS! 🎉</h2>
+    <p class="celebration-text">We're incredibly proud of you for standing with workers, sustainability, and ethical business practices. Your commitment to fairness is what will ultimately transform the gig economy into something that works for everyone.</p>
+    <p class="celebration-text">Now let's work together to make these principles a reality!</p>
+    <button class="celebration-button" onclick="closeCelebration()">CONTINUE THE GOOD WORK</button>
+    <div id="confettiContainer"></div>
+  </div>
+  
+  <script>
+    // Function to show the popup
+    function showPopup() {
+      document.getElementById('popup').style.display = 'block';
+    }
+    
+    // Function to hide the popup
+    function hidePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+    
+    // Function to show celebration
+    function showCelebration() {
+      document.getElementById('celebrationModal').style.display = 'block';
+      createConfetti();
+    }
+    
+    // Function to close celebration
+    function closeCelebration() {
+      document.getElementById('celebrationModal').style.display = 'none';
+    }
+    
+    // Function to create confetti
+    function createConfetti() {
+      const confettiContainer = document.getElementById('confettiContainer');
+      const colors = ['#f44336', '#2196F3', '#FFEB3B', '#4CAF50', '#9C27B0', '#FF9800'];
+      
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 450 + 'px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confettiContainer.appendChild(confetti);
+      }
+    }
+    
+    // Set up interactive checkboxes
+    const checkboxes = document.querySelectorAll('.checkbox');
+    const acceptBtn = document.getElementById('acceptBtn');
+    
+    // Function to update the accept button state
+    function updateAcceptButton() {
+      const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+      acceptBtn.disabled = !allChecked;
+      
+      // Add pulsing animation if all checked
+      if (allChecked) {
+        acceptBtn.classList.add('pulse');
+      } else {
+        acceptBtn.classList.remove('pulse');
+      }
+    }
+    
+    // Add event listeners to all checkboxes
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        // Get the associated label
+        const label = document.getElementById(this.id.replace('checkbox', 'label'));
+        
+        // Update label appearance based on checkbox state
+        if (this.checked) {
+          label.classList.remove('faded');
+        } else {
+          label.classList.add('faded');
+        }
+        
+        // Update the accept button state
+        updateAcceptButton();
+      });
+      
+      // Initialize label state
+      const label = document.getElementById(checkbox.id.replace('checkbox', 'label'));
+      label.classList.add('faded');
+    });
+    
+    // Set up accept button click handler
+    acceptBtn.addEventListener('click', function() {
+      showCelebration();
+    });
+  </script>
+</body>
+</html>
